@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PocketTrack helps you track expenses, manage budgets, and understand your spending.">
+  <title>PocketTrack | Expense Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="PocketTrack home">
+      <span class="brand-icon">P</span> PocketTrack
+    </a>
+    <p>Take control of your money.</p>
+  </header>
+
+  <main class="container">
+    <section class="welcome">
+      <div>
+        <p class="eyebrow">YOUR PERSONAL FINANCE SPACE</p>
+        <h1>Expense Dashboard</h1>
+        <p class="muted">Know where your money goes.</p>
+      </div>
+      <label class="month-picker">
+        Month
+        <input type="month" id="monthFilter">
+      </label>
+    </section>
+
+    <section class="summary-grid" aria-label="Expense summary">
+      <article class="summary-card balance-card">
+        <p>Total Expenses</p>
+        <h2 id="totalExpenses">₹0.00</h2>
+        <span>This month's spending</span>
+      </article>
+      <article class="summary-card">
+        <p>Transactions</p>
+        <h2 id="transactionCount">0</h2>
+        <span>Recorded this month</span>
+      </article>
+      <article class="summary-card">
+        <p>Biggest Expense</p>
+        <h2 id="biggestExpense">₹0.00</h2>
+        <span id="biggestCategory">No expenses yet</span>
+      </article>
+    </section>
+
+    <section class="content-grid">
+      <article class="panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">NEW ENTRY</p>
+            <h2>Add an Expense</h2>
+          </div>
+        </div>
+
+        <form id="expenseForm">
+          <label for="expenseTitle">Expense name</label>
+          <input id="expenseTitle" name="title" type="text"
+                 placeholder="e.g. Lunch, Bus pass" maxlength="80" required>
+
+          <div class="form-row">
+            <div>
+              <label for="expenseAmount">Amount (₹)</label>
+              <input id="expenseAmount" name="amount" type="number"
+                     placeholder="150" min="0.01" max="100000000"
+                     step="0.01" required>
+            </div>
+            <div>
+              <label for="expenseDate">Date</label>
+              <input id="expenseDate" name="date" type="date" required>
+            </div>
+          </div>
+
+          <label for="expenseCategory">Category</label>
+          <select id="expenseCategory" name="category" required>
+            <option value="Food">🍱 Food</option>
+            <option value="Transport">🚌 Transport</option>
+            <option value="Education">📚 Education</option>
+            <option value="Shopping">🛍️ Shopping</option>
+            <option value="Bills">💡 Bills</option>
+            <option value="Health">💊 Health</option>
+            <option value="Entertainment">🎬 Entertainment</option>
+            <option value="Other">📦 Other</option>
+          </select>
+
+          <label for="expenseNote">Note (optional)</label>
+          <textarea id="expenseNote" name="note" rows="2"
+                    maxlength="250" placeholder="Add a short note..."></textarea>
+
+          <button class="primary-button" type="submit">+ Add Expense</button>
+          <p id="formMessage" class="form-message" role="status" aria-live="polite"></p>
+        </form>
+      </article>
+
+      <article class="panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">SPENDING BREAKDOWN</p>
+            <h2>By Category</h2>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="expenseChart" role="img"
+                  aria-label="Doughnut chart showing spending by category"></canvas>
+        </div>
+        <p id="chartMessage" class="muted">Add expenses to see your breakdown.</p>
+      </article>
+    </section>
+
+    <section class="panel transactions-panel">
+      <div class="section-heading transaction-heading">
+        <div>
+          <p class="eyebrow">YOUR RECORDS</p>
+          <h2>Recent Expenses</h2>
+        </div>
+        <input type="search" id="searchExpenses"
+               placeholder="Search expenses..." aria-label="Search expenses">
+      </div>
+
+      <div id="emptyState" class="empty-state">
+        <span>💸</span>
+        <h3>No expenses yet</h3>
+        <p>Add your first expense to get started.</p>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Expense</th>
+              <th scope="col">Category</th>
+              <th scope="col">Date</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="expenseList"></tbody>
+        </table>
+      </div>
+      <button id="exportButton" class="secondary-button" type="button">
+        ↓ Export CSV
+      </button>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built with HTML, CSS and JavaScript · PocketTrack</p>
+  </footer>
+</body>
+</html>
